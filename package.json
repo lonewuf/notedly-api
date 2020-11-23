@@ -1,7 +1,7 @@
 {
   "name": "notedly-api",
   "version": "1.0.0",
-  "description": "API code examples for JavaScript Everywhere by Adam Scott, published by O'Reilly Media",
+  "description": "Api for the application",
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -10,17 +10,13 @@
     "seed": "node final/util/seed/index.js",
     "lint": "eslint \"./**/*.js\""
   },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:javascripteverywhere/api.git"
-  },
   "nodemonConfig": {
     "ignore": [
       "**.test.js"
     ]
   },
   "keywords": [],
-  "author": "Adam Scott",
+  "author": "tawbuts",
   "license": "MIT",
   "dependencies": {
     "apollo-server-express": "2.4.0",
