@@ -7,6 +7,7 @@ const {
   ForbiddenError
 } = require('apollo-server-express');
 const gravatar = require('../util/gravatar');
+const keys = require('../config/keys');
 
 module.exports = {
   newNote: async (parent, { content }, { models, user }) => {
@@ -18,11 +19,10 @@ module.exports = {
       author: mongoose.Types.ObjectId(user.id)
     });
   },
-  updateNote: async (parent, { id, content }, { models }) => {
+  updateNote: async (parent, { id, content }, { models, user }) => {
     if (!user) {
       throw new AuthenticationError('You need to signed in to update a note');
     }
-
     const note = await models.Note.findById(id);
 
     if (note && String(note.author) !== user.id) {
@@ -41,7 +41,7 @@ module.exports = {
       }
     );
   },
-  deleteNote: async (parent, { id }, { models }) => {
+  deleteNote: async (parent, { id }, { models, user }) => {
     if (!user) {
       throw new AuthenticationError('You must be signed in to delete a note');
     }
@@ -70,7 +70,7 @@ module.exports = {
         password: hashed,
         avatar
       });
-      return jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+      return jwt.sign({ id: user._id }, keys.jwtSecret);
     } catch (err) {
       throw new Error('Error creating account');
     }
@@ -90,7 +90,7 @@ module.exports = {
       throw new AuthenticationError('Error Signing in');
     }
 
-    return jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    return jwt.sign({ id: user._id }, keys.jwtSecret);
   },
   toggleFavorite: async (parent, { id }, { models, user }) => {
     if (!user) {
